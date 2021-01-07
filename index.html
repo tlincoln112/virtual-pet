@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .pet-name {
+            font-size: 32px;
+
+        }
+
+        .header {
+            padding: 32px;
+        }
+
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 32px;
+        }
+
+        .image-area {
+            display: grid;
+            background-color: cyan;
+            justify-items: center;
+        }
+
+        .interactive-area {
+            display: grid;
+            background-color: crimson;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .pet-image {
+            height: 500px;
+            max-width: 100%;
+            padding: 32px;
+
+        }
+
+        .activity-icon {
+            height: 50px;
+            width: 50px;
+        }
+
+        .activity-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            width: 90%;
+            padding: 0 1rem;
+        }
+
+        .activity-button {
+            background-color: #B27499;
+            border-radius: 8px;
+            box-shadow: 0 0 5px 0 grey;
+            color: white;
+            cursor: pointer;
+            height: 100%;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="pet-name">Trudy</div>
+        <div class="description">She just sleeps all day.</div>
+    </div>
+    <div class="main">
+        <div class="image-area">
+            <img class="pet-image" src='neutral.gif' />
+        </div>
+        <div class="interactive-area">
+            <div class="activity-row">
+                <img class="activity-icon" src="food.png" />
+                <div id="food-stat" class="activity-stat">50</div>
+                <div class="activity-button" onclick="reduce()">Food</div>
+            </div>
+            <div class="activity-row">
+                <img class="activity-icon" src="water.png" />
+                <div class="activity-stat">10</div>
+                <div class="activity-button" onclick="console.log('Hello')">Water</div>
+            </div>
+            <div class="activity-row">
+                <img class="activity-icon" src="fitness.png" />
+                <div class="activity-stat">10</div>
+                <div class="activity-button" onclick="console.log('Hello')">Exercise</div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    var astat = document.getElementById("food-stat");
+    var food = 50;
+
+    function reduce() {
+        food = food - 10;
+        astat.innerHTML = food;
+    }
+
+
+
+</script>
+
+</html>
