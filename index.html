@@ -68,6 +68,10 @@
             justify-items: center;
             padding: 5px;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -78,23 +82,31 @@
     </div>
     <div class="main">
         <div class="image-area">
-            <img class="pet-image" src='neutral.gif' />
+            <img id="pet-image" class="pet-image" src='neutral.gif' />
         </div>
         <div class="interactive-area">
-            <div class="activity-row">
+            <div id = "activity-row" class="activity-row">
                 <img class="activity-icon" src="food.png" />
                 <div id="food-stat" class="activity-stat">50</div>
-                <div class="activity-button" onclick="reduce()">Food</div>
+                <div class="activity-button" onclick="addfood()">Food</div>
             </div>
-            <div class="activity-row">
+            <div id = "activity-row1"  class="activity-row">
                 <img class="activity-icon" src="water.png" />
-                <div class="activity-stat">10</div>
-                <div class="activity-button" onclick="console.log('Hello')">Water</div>
+                <div id="water-stat" class="activity-stat">50</div>
+                <div class="activity-button" onclick="addwater()">Water</div>
             </div>
-            <div class="activity-row">
+            <div id = "activity-row2"  class="activity-row">
                 <img class="activity-icon" src="fitness.png" />
-                <div class="activity-stat">10</div>
-                <div class="activity-button" onclick="console.log('Hello')">Exercise</div>
+                <div id="exercise-stat" class="activity-stat">50</div>
+                <div class="activity-button" onclick="addexercise()">Exercise</div>
+            </div>
+            <div id="end-game" class="hidden end-game">
+                <div class="message">
+                    Your pet has passed out.
+                </div>
+                <div class="activity-button restart-button" onclick="reset()">
+                    Restart
+                </div>
             </div>
         </div>
     </div>
@@ -104,12 +116,88 @@
 </body>
 
 <script>
-    var astat = document.getElementById("food-stat");
+    var statfood = document.getElementById("food-stat");
+    var statwater = document.getElementById("water-stat");
+    var statexercise = document.getElementById("exercise-stat");
     var food = 50;
+    var water = 50;
+    var exercise = 50;
+    var tempimage = 'neutral.gif'
 
-    function reduce() {
+    var timer = setInterval(time, 2000);
+
+    function addfood() {
+        food = food + 15;
+        water = water - 5;
+        exercise = exercise - 5;
+        update();
+    }
+
+    function addwater() {
+        food = food - 5;
+        water = water + 15;
+        exercise = exercise - 2;
+        update();
+    }
+
+    function addexercise() {
         food = food - 10;
-        astat.innerHTML = food;
+        water = water - 15;
+        exercise = exercise + 30;
+        update();
+    }
+
+    function update() {
+        statfood.innerHTML = food;
+        statwater.innerHTML = water;
+        statexercise.innerHTML = exercise;
+        var lowestStat = Math.min(food, water, exercise);
+
+        var imageSrc
+
+        if (lowestStat <= 0) {
+            imageSrc = 'passed-out.gif'
+            toggleInteractivity();
+            clearInterval(timer);
+        } else if (lowestStat < 25) {
+            imageSrc = 'tired.gif'
+        } else if (lowestStat < 75) {
+            imageSrc = 'neutral.gif'
+        } else if (lowestStat < 150) {
+            imageSrc = 'upbeat.gif'
+        } else {
+            imageSrc = 'exuberant.gif'
+        }
+
+        if (imageSrc !== tempimage) {
+            document.getElementById("pet-image").src = imageSrc
+        }
+
+        tempimage = imageSrc;
+
+    }
+
+    function time() {
+        water = water - 8
+        food = food - 4
+        exercise = exercise - 2
+        update()
+    }
+
+    function toggleInteractivity(){
+        document.getElementById("activity-row").classList.toggle("hidden")
+        document.getElementById("activity-row1").classList.toggle("hidden")
+        document.getElementById("activity-row2").classList.toggle("hidden")
+        document.getElementById("end-game").classList.toggle("hidden")
+    }
+
+    function reset() {
+        food = 50;
+        water = 50;
+        exercise = 50;
+        toggleInteractivity();
+        update();
+        timer = setInterval(time, 2000);
     }
 
 
